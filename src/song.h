@@ -29,129 +29,131 @@
 
 ///Note flags
 //The original 32 status flags are all used up by some common and some track-specific statuses
-#define EOF_NOTE_FLAG_HOPO       1	//This flag will be set by eof_determine_phrase_status() if the note displays as a HOPO, either manually or automatically
-#define EOF_NOTE_FLAG_SP         2	//This flag will be set by eof_determine_phrase_status() if the note is in a star power section
-#define EOF_NOTE_FLAG_CRAZY      4	//This flag will represent overlap allowed for guitar/dance/keys tracks, and will force pro guitar/bass chords to display with a chord box
-#define EOF_NOTE_FLAG_F_HOPO     8	//Manually defines the note as being HOPO
-#define EOF_NOTE_FLAG_NO_HOPO    16	//Manually defines the note as being forced strum
-#define EOF_NOTE_FLAG_HIGHLIGHT  1073741824	//This flag will represent a note that is highlighted (in yellow, by default) in the editor window (permanently, until manually cleared)
-#define EOF_NOTE_FLAG_EXTENDED 2147483648UL	//The MSB will be set if an additional extended flag variable is present for the note in the project file
-											//This flag will only be used during project save/load to determine whether another flags variable is written/read
+#define EOF_NOTE_FLAG_HOPO       (1<<0)       //Set by eof_determine_phrase_status() if the note displays as a HOPO, either manually or automatically
+#define EOF_NOTE_FLAG_SP         (1<<1)       //Set by eof_determine_phrase_status() if the note is in a star power section
+#define EOF_NOTE_FLAG_CRAZY      (1<<2)       //Represents overlap allowed for guitar/dance/keys tracks, and will force pro guitar/bass chords to display with a chord box
+#define EOF_NOTE_FLAG_F_HOPO     (1<<3)       //Manually defines the note as being HOPO
+#define EOF_NOTE_FLAG_NO_HOPO    (1<<4)       //Manually defines the note as being forced strum
+#define EOF_NOTE_FLAG_HIGHLIGHT  (1<<30)      //Note that is highlighted (in yellow, by default) in the editor window (permanently, until manually cleared)
+#define EOF_NOTE_FLAG_EXTENDED   (1<<31)      //The MSB will be set if an additional extended flag variable is present for the note in the project file
+                                              //This flag will only be used during project save/load to determine whether another flags variable is written/read
 
 //The following flags pertain to pro guitar notes
-#define EOF_PRO_GUITAR_NOTE_FLAG_ACCENT         32			//This flag will represent a note that is played as an accent
-#define EOF_PRO_GUITAR_NOTE_FLAG_P_HARMONIC     64			//This flag will represent a note that is played as a pinch harmonic
-#define EOF_PRO_GUITAR_NOTE_FLAG_LINKNEXT       128			//This flag will represent a note that is linked to the next note in the track difficulty
-#define EOF_PRO_GUITAR_NOTE_FLAG_UNPITCH_SLIDE  256			//This flag will represent a note that has an unpitched slide
-#define EOF_PRO_GUITAR_NOTE_FLAG_HO				512			//This flag will represent a hammer on
-#define EOF_PRO_GUITAR_NOTE_FLAG_PO				1024		//This flag will represent a pull off
-#define EOF_PRO_GUITAR_NOTE_FLAG_TAP			2048		//This flag will represent a tapped note
-#define EOF_PRO_GUITAR_NOTE_FLAG_SLIDE_UP		4096		//This flag will represent a note that slides up to the next note
-#define EOF_PRO_GUITAR_NOTE_FLAG_SLIDE_DOWN		8192		//This flag will represent a note that slides down to the next note
-#define EOF_PRO_GUITAR_NOTE_FLAG_STRING_MUTE	16384		//This flag will represent a note whose strings are muted by the fretting hand
-#define EOF_PRO_GUITAR_NOTE_FLAG_PALM_MUTE		32768		//This flag will represent a note whose strings are muted by the strumming hand
-#define EOF_PRO_GUITAR_NOTE_FLAG_UP_STRUM		262144		//This flag will represent a chord that is played by strumming up
-#define EOF_PRO_GUITAR_NOTE_FLAG_DOWN_STRUM		524288		//This flag will represent a chord that is played by strumming down
-#define EOF_PRO_GUITAR_NOTE_FLAG_MID_STRUM		1048576		//This flag will represent a chord that is played by strumming in the middle of the strings (ie. barely playing or not playing strings 1 and 6)
-#define EOF_PRO_GUITAR_NOTE_FLAG_BEND			2097152		//This flag will represent a note that is bent after it is picked
-#define EOF_PRO_GUITAR_NOTE_FLAG_HARMONIC		4194304		//This flag will represent a note that is played as a harmonic
-#define EOF_PRO_GUITAR_NOTE_FLAG_SLIDE_REVERSE  8388608		//This flag will represent a note whose slide will be written as reversed (channel 11)
-#define EOF_PRO_GUITAR_NOTE_FLAG_VIBRATO        16777216	//This flag will represent a note that is played with vibrato
-#define EOF_PRO_GUITAR_NOTE_FLAG_RS_NOTATION    33554432	//This flag will indicate whether a note with a slide or bend flag defines the slide's ending fret or the bend's strength (used in Rocksmith)
-#define EOF_PRO_GUITAR_NOTE_FLAG_POP            67108864	//This flag will represent a note that is played with pop technique (ie. bass)
-#define EOF_PRO_GUITAR_NOTE_FLAG_SLAP           134217728	//This flag will represent a note that is played with slap technique (ie. bass)
-#define EOF_PRO_GUITAR_NOTE_FLAG_HD             268435456	//This flag will represent a note that exports to Rocksmith with high density (ie. a chord repeat line)
-#define EOF_PRO_GUITAR_NOTE_FLAG_SPLIT          536870912	//This flag will represent a chord that exports to Rocksmith as single notes instead of a chord
+#define EOF_PRO_GUITAR_NOTE_FLAG_ACCENT         (1<<5)        //Accent note
+#define EOF_PRO_GUITAR_NOTE_FLAG_P_HARMONIC     (1<<6)        //Pinch harmonic
+#define EOF_PRO_GUITAR_NOTE_FLAG_LINKNEXT       (1<<7)        //Note that is linked to the next note in the track difficulty
+#define EOF_PRO_GUITAR_NOTE_FLAG_UNPITCH_SLIDE  (1<<8)        //Note with an unpitched slide
+#define EOF_PRO_GUITAR_NOTE_FLAG_HO             (1<<9)        //Hammer on
+#define EOF_PRO_GUITAR_NOTE_FLAG_PO             (1<<10)       //Pull off
+#define EOF_PRO_GUITAR_NOTE_FLAG_TAP            (1<<11)       //Tapped note
+#define EOF_PRO_GUITAR_NOTE_FLAG_SLIDE_UP       (1<<12)       //Note that slides up to the next note
+#define EOF_PRO_GUITAR_NOTE_FLAG_SLIDE_DOWN     (1<<13)       //Note that slides down to the next note
+#define EOF_PRO_GUITAR_NOTE_FLAG_STRING_MUTE    (1<<14)       //Note whose strings are muted by the fretting hand
+#define EOF_PRO_GUITAR_NOTE_FLAG_PALM_MUTE      (1<<15)       //Note whose strings are muted by the strumming hand
+// Reserved for EOF_NOTE_FLAG_IS_TRILL
+// Reserved for EOF_NOTE_FLAG_IS_TREMOLO
+#define EOF_PRO_GUITAR_NOTE_FLAG_UP_STRUM       (1<<18)       //Chord that is played by strumming up
+#define EOF_PRO_GUITAR_NOTE_FLAG_DOWN_STRUM     (1<<19)       //Chord that is played by strumming down
+#define EOF_PRO_GUITAR_NOTE_FLAG_MID_STRUM      (1<<20)       //Chord that is played by strumming in the middle of the strings (ie. barely playing or not playing strings 1 and 6)
+#define EOF_PRO_GUITAR_NOTE_FLAG_BEND           (1<<21)       //Note that is bent after it is picked
+#define EOF_PRO_GUITAR_NOTE_FLAG_HARMONIC       (1<<22)       //Note that is played as a harmonic
+#define EOF_PRO_GUITAR_NOTE_FLAG_SLIDE_REVERSE  (1<<23)       //Note whose slide will be written as reversed (channel 11)
+#define EOF_PRO_GUITAR_NOTE_FLAG_VIBRATO        (1<<24)       //Note that is played with vibrato
+#define EOF_PRO_GUITAR_NOTE_FLAG_RS_NOTATION    (1<<25)       //Whether a note with a slide or bend flag defines the slide's ending fret or the bend's strength (used in Rocksmith)
+#define EOF_PRO_GUITAR_NOTE_FLAG_POP            (1<<26)       //Note that is played with pop technique (ie. bass)
+#define EOF_PRO_GUITAR_NOTE_FLAG_SLAP           (1<<27)       //Note that is played with slap technique (ie. bass)
+#define EOF_PRO_GUITAR_NOTE_FLAG_HD             (1<<28)       //Note that exports to Rocksmith with high density (ie. a chord repeat line)
+#define EOF_PRO_GUITAR_NOTE_FLAG_SPLIT          (1<<29)       //Chord that exports to Rocksmith as single notes instead of a chord
 
 //The following flags pertain to drum notes
-#define EOF_DRUM_NOTE_FLAG_Y_CYMBAL         32		//This flag represents a yellow drum note charted as a RB3 Pro style cymbal (lane 3)
-#define EOF_DRUM_NOTE_FLAG_B_CYMBAL         64		//This flag represents a blue drum note charted as a RB3 Pro style cymbal (lane 4)
-#define EOF_DRUM_NOTE_FLAG_G_CYMBAL         128		//This flag represents a green drum note charted as a RB3 Pro style cymbal (lane 5)
-#define EOF_DRUM_NOTE_FLAG_DBASS            256		//This flag will represent Expert+ bass drum for the drum track (lane 1)
-#define EOF_DRUM_NOTE_FLAG_Y_HI_HAT_OPEN	512		//This flag means the yellow cymbal will be displayed in Phase Shift as an open hi hat (lane 3)
-#define EOF_DRUM_NOTE_FLAG_Y_HI_HAT_PEDAL	1024	//This flag means the yellow cymbal will be displayed in Phase Shift as a pedal controlled hi hat (lane 3)
-#define EOF_DRUM_NOTE_FLAG_R_RIMSHOT		2048	//This flag means the red drum note will be displayed in Phase Shift as a rim shot (lane 2)
-#define EOF_DRUM_NOTE_FLAG_Y_SIZZLE			4096	//This flag means the yellow cymbal will be displayed in Phase Shift as a "sizzle" (partially open) hi hat (lane 3)
-#define EOF_DRUM_NOTE_FLAG_Y_COMBO          8192	//This flag means the yellow drum note is treated as both a cymbal gem and a tom gem (for use in the Phase Shift drum track)
-#define EOF_DRUM_NOTE_FLAG_B_COMBO         16384	//This flag means the blue drum note is treated as both a cymbal gem and a tom gem (for use in the Phase Shift drum track)
-#define EOF_DRUM_NOTE_FLAG_G_COMBO         32768	//This flag means the green drum note is treated as both a cymbal gem and a tom gem (for use in the Phase Shift drum track)
-#define EOF_DRUM_NOTE_FLAG_FLAM           262144	//This flag means the drum note is a flam
+#define EOF_DRUM_NOTE_FLAG_Y_CYMBAL             (1<<5)        //Yellow drum note charted as a RB3 Pro style cymbal (lane 3)
+#define EOF_DRUM_NOTE_FLAG_B_CYMBAL             (1<<6)        //Blue drum note charted as a RB3 Pro style cymbal (lane 4)
+#define EOF_DRUM_NOTE_FLAG_G_CYMBAL             (1<<7)        //Green drum note charted as a RB3 Pro style cymbal (lane 5)
+#define EOF_DRUM_NOTE_FLAG_DBASS                (1<<8)        //Expert+ bass drum for the drum track (lane 1)
+#define EOF_DRUM_NOTE_FLAG_Y_HI_HAT_OPEN        (1<<9)        //Yellow cymbal will be displayed in Phase Shift as an open hi hat (lane 3)
+#define EOF_DRUM_NOTE_FLAG_Y_HI_HAT_PEDAL       (1<<10)       //Yellow cymbal will be displayed in Phase Shift as a pedal controlled hi hat (lane 3)
+#define EOF_DRUM_NOTE_FLAG_R_RIMSHOT            (1<<11)       //Red drum note will be displayed in Phase Shift as a rim shot (lane 2)
+#define EOF_DRUM_NOTE_FLAG_Y_SIZZLE             (1<<12)       //Yellow cymbal will be displayed in Phase Shift as a "sizzle" (partially open) hi hat (lane 3)
+#define EOF_DRUM_NOTE_FLAG_Y_COMBO              (1<<13)       //Yellow drum note is treated as both a cymbal gem and a tom gem (for use in the Phase Shift drum track)
+#define EOF_DRUM_NOTE_FLAG_B_COMBO              (1<<14)       //Blue drum note is treated as both a cymbal gem and a tom gem (for use in the Phase Shift drum track)
+#define EOF_DRUM_NOTE_FLAG_G_COMBO              (1<<15)       //Green drum note is treated as both a cymbal gem and a tom gem (for use in the Phase Shift drum track)
+#define EOF_DRUM_NOTE_FLAG_FLAM                 (1<<18)       //Drum note is a flam
 
 //The following flags pertain to dance notes
-#define EOF_DANCE_FLAG_LANE_1_MINE		512		//This flag will represent a mine note for lane 1
-#define EOF_DANCE_FLAG_LANE_2_MINE		1024	//This flag will represent a mine note for lane 2
-#define EOF_DANCE_FLAG_LANE_3_MINE		2048	//This flag will represent a mine note for lane 3
-#define EOF_DANCE_FLAG_LANE_4_MINE		4096	//This flag will represent a mine note for lane 4
+#define EOF_DANCE_FLAG_LANE_1_MINE              (1<<9)        //Mine note for lane 1
+#define EOF_DANCE_FLAG_LANE_2_MINE              (1<<10)       //Mine note for lane 2
+#define EOF_DANCE_FLAG_LANE_3_MINE              (1<<11)       //Mine note for lane 3
+#define EOF_DANCE_FLAG_LANE_4_MINE              (1<<12)       //Mine note for lane 4
 
 //The following flags pertain to legacy guitar notes
-#define EOF_GUITAR_NOTE_FLAG_IS_SLIDER	512		//This flag will be set by eof_determine_phrase_status() if the note is in a slider section
-#define EOF_GUITAR_NOTE_FLAG_GHL_OPEN   1024	//This flag will represent an open note in a Guitar Hero Live style track
-//32, 64, 128, 256, 2048, 4096, 8192, 16384, 32768, 262144, etc. are currently unused for legacy guitar notes
+#define EOF_GUITAR_NOTE_FLAG_IS_SLIDER          (1<<9)        //Set by eof_determine_phrase_status() if the note is in a slider section
+#define EOF_GUITAR_NOTE_FLAG_GHL_OPEN           (1<<10)       //Open note in a Guitar Hero Live style track
+//bits 5, 6, 7, 8, 11, 12, 13, 14, 15, 18, etc. are currently unused for legacy guitar notes
 
 //The following flags pertain to legacy and pro guitar notes
-#define EOF_NOTE_FLAG_IS_TRILL		            65536	//This flag will be set by eof_determine_phrase_status() if the note is in a trill section
-#define EOF_NOTE_FLAG_IS_TREMOLO		        131072	//This flag will be set by eof_determine_phrase_status() if the note is in a tremolo section
+#define EOF_NOTE_FLAG_IS_TRILL                  (1<<16)       //Set by eof_determine_phrase_status() if the note is in a trill section
+#define EOF_NOTE_FLAG_IS_TREMOLO                (1<<17)       //Set by eof_determine_phrase_status() if the note is in a tremolo section
 
 
 ///Temporary note flags
 //The following temporary flags are maintained internally and do not save to file (even during project save, clipboard, auto-adjust, etc.)
-#define EOF_NOTE_TFLAG_TEMP             1	//This flag will represent a temporary status, such as a note that was generated for temporary use that will be removed
-#define EOF_NOTE_TFLAG_IGNORE           2	//This flag will represent a note that is not exported to XML (such as a chord within an arpeggio that is converted into single notes)
-#define EOF_NOTE_TFLAG_ARP              4	//This flag will represent a note that is within an arpeggio, for RS export of arpeggio/handshape phrases as handshape tags
-#define EOF_NOTE_TFLAG_HAND             8	//This flag will represent a note that is within a handshape phrase, which is treated as a variation of an arpeggio, affecting export to RS2 XML
-#define EOF_NOTE_TFLAG_ARP_FIRST       16	//This flag will represent a note that is the first note within its arpeggio phrase
-#define EOF_NOTE_TFLAG_SORT            32	//This flag is applied to selected notes by eof_track_sort_notes() to allow it to recreate the note selection after sorting
-#define EOF_NOTE_TFLAG_GHOST_HS        64	//This flag will represent a note that is added during RS2 export that is observed during the chord list building and handshape exports, but ignored otherwise
-#define EOF_NOTE_TFLAG_TWIN           128	//This flag will represent a note that is either the original or ghost gem-less clone of a partial ghosted chord that is created during RS2 export
-#define EOF_NOTE_TFLAG_COMBINE        256	//This flag will represent a note that was marked as ignored because its sustain is to be combined with that of a chordnote during RS2 export
-#define EOF_NOTE_TFLAG_NO_LN          512	//This flag will indicate that the linknext status of the affected note is to be interpreted to be not set, due to how chordnotes and linked single notes can be combined, during RS2 export
-#define EOF_NOTE_TFLAG_CCHANGE       1024	//This flag will indicate that a note is a chord change from RS import's perspective (for determining manually defined handshape phrases)
-#define EOF_NOTE_TFLAG_HIGHLIGHT     2048	//This flag will represent a note that is highlighted (in cyan by default, instead of the yellow used for static highlighting) in the editor window (non permanent, such as for toggleable highlighting options)
-#define EOF_NOTE_TFLAG_MINLENGTH     4096	//This flag will indicate that a temporary ignored note added for the chordnote mechanism needs to RS2 export with a minimum length of 1ms
-#define EOF_NOTE_TFLAG_LN            8192	//This flag will indicate that the affected chord has chordify status and the chord tag should RS2 export with the linknext tag overridden to be enabled, which will cause the chord to link to the temporary single notes written for the chord
-#define EOF_NOTE_TFLAG_HD           16384	//This flag will indicate that the affected chord should export with high density regardless of the value of the regular high density flag
-#define EOF_NOTE_TFLAG_GHL_W3       32768	//This flag will indicate that the affected note is a "N 2 #" white 3 note being imported from a Feedback file instead of "N 5 #" toggle HOPO notation, since they are both stored as a lane 6 bitmask
-#define EOF_NOTE_TFLAG_RESNAP       65536	//This flag will indicate that a note was defined as grid snapped in the imported MIDI, and that it should be resnapped if rounding errors result in it not being grid snapped after import
-#define EOF_NOTE_TFLAG_SPLIT_CHORD 131072	//This flag will represent a note that was created during RS2 export due to a chord that was broken up into single notes by effect of the linknext or split statuses
-#define EOF_NOTE_TFLAG_SOLO_NOTE   262144	//This flag will be set by eof_determine_phrase_status() if the note is in a solo section
-#define EOF_NOTE_TFLAG_GENERIC2    524288	//This flag is reserved for generic purposes
-#define EOF_NOTE_TFLAG_SP_END      524288	//	Such as marking which notes are the last in a star power phrase during star power pathing
-#define EOF_NOTE_TFLAG_GRACE      1048576	//This flag will indicate that the note was defined in an imported guitar pro file as a before the beat grace note, which can be converted to flam notes in the case of a percussion track
+#define EOF_NOTE_TFLAG_TEMP          (1<<0)	//Temporary status, such as a note that was generated for temporary use that will be removed
+#define EOF_NOTE_TFLAG_IGNORE        (1<<1)	//Note that is not exported to XML (such as a chord within an arpeggio that is converted into single notes)
+#define EOF_NOTE_TFLAG_ARP           (1<<2)	//Note that is within an arpeggio, for RS export of arpeggio/handshape phrases as handshape tags
+#define EOF_NOTE_TFLAG_HAND          (1<<3)	//Note that is within a handshape phrase, which is treated as a variation of an arpeggio, affecting export to RS2 XML
+#define EOF_NOTE_TFLAG_ARP_FIRST     (1<<4)	//Note that is the first note within its arpeggio phrase
+#define EOF_NOTE_TFLAG_SORT          (1<<5)	//Applied to selected notes by eof_track_sort_notes() to allow it to recreate the note selection after sorting
+#define EOF_NOTE_TFLAG_GHOST_HS      (1<<6)	//Note that is added during RS2 export that is observed during the chord list building and handshape exports, but ignored otherwise
+#define EOF_NOTE_TFLAG_TWIN          (1<<7)	//Note that is either the original or ghost gem-less clone of a partial ghosted chord that is created during RS2 export
+#define EOF_NOTE_TFLAG_COMBINE       (1<<8)	//Note that was marked as ignored because its sustain is to be combined with that of a chordnote during RS2 export
+#define EOF_NOTE_TFLAG_NO_LN         (1<<9)	//Indicates that the linknext status of the affected note is to be interpreted to be not set, due to how chordnotes and linked single notes can be combined, during RS2 export
+#define EOF_NOTE_TFLAG_CCHANGE      (1<<10)	//Indicates that a note is a chord change from RS import's perspective (for determining manually defined handshape phrases)
+#define EOF_NOTE_TFLAG_HIGHLIGHT    (1<<11)	//Note that is highlighted (in cyan by default, instead of the yellow used for static highlighting) in the editor window (non permanent, such as for toggleable highlighting options)
+#define EOF_NOTE_TFLAG_MINLENGTH    (1<<12)	//Indicates that a temporary ignored note added for the chordnote mechanism needs to RS2 export with a minimum length of 1ms
+#define EOF_NOTE_TFLAG_LN           (1<<13)	//Indicates that the affected chord has chordify status and the chord tag should RS2 export with the linknext tag overridden to be enabled, which will cause the chord to link to the temporary single notes written for the chord
+#define EOF_NOTE_TFLAG_HD           (1<<14)	//Indicates that the affected chord should export with high density regardless of the value of the regular high density flag
+#define EOF_NOTE_TFLAG_GHL_W3       (1<<15)	//Indicates that the affected note is a "N 2 #" white 3 note being imported from a Feedback file instead of "N 5 #" toggle HOPO notation, since they are both stored as a lane 6 bitmask
+#define EOF_NOTE_TFLAG_RESNAP       (1<<16)	//Indicates that a note was defined as grid snapped in the imported MIDI, and that it should be resnapped if rounding errors result in it not being grid snapped after import
+#define EOF_NOTE_TFLAG_SPLIT_CHORD  (1<<17)	//Note that was created during RS2 export due to a chord that was broken up into single notes by effect of the linknext or split statuses
+#define EOF_NOTE_TFLAG_SOLO_NOTE    (1<<18)	//Set by eof_determine_phrase_status() if the note is in a solo section
+#define EOF_NOTE_TFLAG_GENERIC2     (1<<19)	//RESERVED for generic purposes
+#define EOF_NOTE_TFLAG_SP_END       (1<<19)	//	Such as marking which notes are the last in a star power phrase during star power pathing
+#define EOF_NOTE_TFLAG_GRACE        (1<<20)	//Indicates that the note was defined in an imported guitar pro file as a before the beat grace note, which can be converted to flam notes in the case of a percussion track
 
 
 ///Extended note flags
 //Extended flags are track specific and should not be retained when copied to a track of a different format
 //The following extended flags pertain to pro guitar notes
-#define EOF_PRO_GUITAR_NOTE_EFLAG_IGNORE      1	//This flag specifies a note that will export to RS2 format with the "ignore" status set to nonzero, for special uses
-#define EOF_PRO_GUITAR_NOTE_EFLAG_SUSTAIN     2	//This flag specifies a note that will export to RS2 format with its sustain even when it's a chord without techniques that normally require chordNote tags
-#define EOF_PRO_GUITAR_NOTE_EFLAG_STOP        4	//This flag specifies a tech note that truncates the overlapped string's note at its position
-#define EOF_PRO_GUITAR_NOTE_EFLAG_GHOST_HS    8	//This flag specifies a note that will export to RS2 format so that the chord tag written reflects ghost gems having been filtered out as per normal,
+#define EOF_PRO_GUITAR_NOTE_EFLAG_IGNORE      (1<<0)	//Note that will export to RS2 format with the "ignore" status set to nonzero, for special uses
+#define EOF_PRO_GUITAR_NOTE_EFLAG_SUSTAIN     (1<<1)	//Note that will export to RS2 format with its sustain even when it's a chord without techniques that normally require chordNote tags
+#define EOF_PRO_GUITAR_NOTE_EFLAG_STOP        (1<<2)	//Tech note that truncates the overlapped string's note at its position
+#define EOF_PRO_GUITAR_NOTE_EFLAG_GHOST_HS    (1<<3)	//Note that will export to RS2 format so that the chord tag written reflects ghost gems having been filtered out as per normal,
 												//	but the handshape tag written reflecting a chord where the ghost gems are included.  This allows the author to have multiple partial chords display
 												//	as if they all used the full chord's handshape in-game
-#define EOF_PRO_GUITAR_NOTE_EFLAG_CHORDIFY   16	//This flag specifies a note with "chordify" status, affecting its export to RS2 XML as a chord tag with no chordnote subtags, and with ignored single notes if the chord uses sustain
-#define EOF_PRO_GUITAR_NOTE_EFLAG_FINGERLESS 32	//This flag specifies that a chord has no defined fingering and will RS export reflecting as such
-#define EOF_PRO_GUITAR_NOTE_EFLAG_PRE_BEND   64	//This flag specifies that a bend tech note is to be interpreted as a pre-bend even if it's not at the start position of the normal note it affects
+#define EOF_PRO_GUITAR_NOTE_EFLAG_CHORDIFY   (1<<4)	//Note with "chordify" status, affecting its export to RS2 XML as a chord tag with no chordnote subtags, and with ignored single notes if the chord uses sustain
+#define EOF_PRO_GUITAR_NOTE_EFLAG_FINGERLESS (1<<5)	//Chord has no defined fingering and will RS export reflecting as such
+#define EOF_PRO_GUITAR_NOTE_EFLAG_PRE_BEND   (1<<6)	//Bend tech note is to be interpreted as a pre-bend even if it's not at the start position of the normal note it affects
 
 //The following extended flag pertains to legacy notes
-#define EOF_NOTE_EFLAG_DISJOINTED 128	//This flag specifies that affected notes will not be merged by fixup logic even when they are at the same timestamp, unless they have lanes in common
+#define EOF_NOTE_EFLAG_DISJOINTED            (1<<7)	//Affected notes will not be merged by fixup logic even when they are at the same timestamp, unless they have lanes in common
 
 //The following extended flags are not specific to a track format
-#define EOF_NOTE_EFLAG_SP_DEPLOY 1073741824		//This flag specifies that star power is to be deployed at the affected note, for predicting scoring in a particular game
-#define EOF_NOTE_EFLAG_EXTENDED 2147483648UL	//The MSB will be set if an additional extended flag variable is present for the note in the project file
-												//This flag will only be used during project save/load to determine whether another flags variable is written/read
+#define EOF_NOTE_EFLAG_SP_DEPLOY             (1<<30)	//TStar power is to be deployed at the affected note, for predicting scoring in a particular game
+#define EOF_NOTE_EFLAG_EXTENDED              (1<<31)	//The MSB will be set if an additional extended flag variable is present for the note in the project file
+								//This flag will only be used during project save/load to determine whether another flags variable is written/read
 
 ///Beat flags
-#define EOF_BEAT_FLAG_ANCHOR       1
-#define EOF_BEAT_FLAG_EVENTS       2
-#define EOF_BEAT_FLAG_START_4_4    4
-#define EOF_BEAT_FLAG_START_3_4    8
-#define EOF_BEAT_FLAG_START_5_4   16
-#define EOF_BEAT_FLAG_START_6_4   32
-#define EOF_BEAT_FLAG_CUSTOM_TS   64	//If this is nonzero, indicates that the first and second most significant bytes of the beat's flags store the TS numerator and denominator, respectively
-#define EOF_BEAT_FLAG_KEY_SIG    128
-#define EOF_BEAT_FLAG_MIDBEAT    256	//If this is nonzero, indicates that a beat was inserted to accommodate a mid-beat tempo change (during Feedback/MIDI import)
-#define EOF_BEAT_FLAG_START_2_4  512
-#define EOF_BEAT_FLAG_EXTENDED 32768	//Reserve the highest unused bit to allow for another beat flag to be conditionally present
+#define EOF_BEAT_FLAG_ANCHOR       (1<<0)
+#define EOF_BEAT_FLAG_EVENTS       (1<<1)
+#define EOF_BEAT_FLAG_START_4_4    (1<<2)
+#define EOF_BEAT_FLAG_START_3_4    (1<<3)
+#define EOF_BEAT_FLAG_START_5_4    (1<<4)
+#define EOF_BEAT_FLAG_START_6_4    (1<<5)
+#define EOF_BEAT_FLAG_CUSTOM_TS    (1<<6)	//If this is nonzero, indicates that the first and second most significant bytes of the beat's flags store the TS numerator and denominator, respectively
+#define EOF_BEAT_FLAG_KEY_SIG      (1<<7)
+#define EOF_BEAT_FLAG_MIDBEAT      (1<<8)	//If this is nonzero, indicates that a beat was inserted to accommodate a mid-beat tempo change (during Feedback/MIDI import)
+#define EOF_BEAT_FLAG_START_2_4    (1<<9)
+#define EOF_BEAT_FLAG_EXTENDED     (1<<15)	//Reserve the highest unused bit to allow for another beat flag to be conditionally present
 
 
 ///Phrase flags
@@ -319,21 +321,21 @@ typedef struct
 
 
 ///Track flags
-#define EOF_TRACK_FLAG_SIX_LANES		1
+#define EOF_TRACK_FLAG_SIX_LANES       (1<<0)
 	//Specifies if the track has open strumming enabled (legacy bass or guitar tracks) or a fifth drum lane enabled (PART DRUMS)
-#define EOF_TRACK_FLAG_ALT_NAME			2
+#define EOF_TRACK_FLAG_ALT_NAME        (1<<1)
 	//Specifies if the track has an alternate display name (for RS export.  MIDI export will still use the native name)
-#define EOF_TRACK_FLAG_UNLIMITED_DIFFS	4
+#define EOF_TRACK_FLAG_UNLIMITED_DIFFS (1<<2)
 	//Specifies a pro guitar track as not being limited to 4 difficulties plus one more for the BRE difficulty.  Higher numbered difficulties will be exported to Rocksmith format
-#define EOF_TRACK_FLAG_GHL_MODE         8
+#define EOF_TRACK_FLAG_GHL_MODE        (1<<3)
 	//Specifies a legacy guitar behavior track as having Guitar Hero Live characteristics (6 lanes plus an additional open note status)
-#define EOF_TRACK_FLAG_RS_BONUS_ARR    16
+#define EOF_TRACK_FLAG_RS_BONUS_ARR    (1<<4)
 	//Specifies that a pro guitar track is to be presented in Rocksmith as a bonus arrangement
-#define EOF_TRACK_FLAG_GHL_MODE_MS     32
+#define EOF_TRACK_FLAG_GHL_MODE_MS     (1<<5)
 	//Specifies that if the track is in GHL mode, the lane order has been changed to EOF's newer system, to match the order in Moonscraper (1=B1,2=B2,3=B3,4=W1,5=W2,6=W3)
-#define EOF_TRACK_FLAG_RS_ALT_ARR      64
+#define EOF_TRACK_FLAG_RS_ALT_ARR      (1<<6)
 	//Specifies that a pro guitar track is to be presented in Rocksmith as an alternate arrangement
-#define EOF_TRACK_FLAG_RS_PICKED_BASS 128
+#define EOF_TRACK_FLAG_RS_PICKED_BASS  (1<<7)
 	//Specifies that a bass pro guitar track is to be presented in Rocksmith as a picked bass arrangement instead of a fingered bass arrangement
 
 
